@@ -26,8 +26,6 @@ function getCheck_UFAX24S() {
     }
 }
 //getCheck_UFAX24S()
-
-
 function wpMSport() {
     const URL1 = 'https://ufax24.com/wp-json/wp/v2/posts'
     axios.get(URL1)
@@ -42,30 +40,27 @@ function wpMSport() {
         }, function (error, data) {
          console.log( data );
          const dirname = "./data/blog/"+webhook_time[0]+"_sport.md";
-         fs.writeFileSync(dirname, wwdata);
-         var result = markdown.makeHtml(wwdata);
+         fs.writeFileSync(dirname, data.content.rendered);
+         let result = markdown.makeHtml(data.content.rendered);
         console.log(result);
         })
     });
       client.getPosts(function (error, posts) {
-        console.log("Found " + posts.length + " posts!");
+        console.log("Found " + posts + " posts!");
     });
 }
 
-wpMSport()
-
-function wpPostUpdat(ID) {
-    client.editPost({
-        date_gmt: dategmt,
-        title: Ptilte,
-        content: Pcontent,
-        status: "draft",
-    }, function (error, data) {
-        console.log( data );
-
-    });
-
-    // client.getPosts(function (error, posts) {
-    //     console.log("Found " + posts.length + " posts!");
-    // });
+function linkCheck() {
+    const URL1 = 'https://ufax24.com/wp-json/wp/v2/posts?_fields=author,id,excerpt,title,link'
+    axios.get(URL1)
+    .then(response => response.data)
+    .then((data) => {
+        for (let index = 0; index < data.length; index++) {
+            const element = data[index].link;
+            console.log(element);  
+        }
+  })
 }
+linkCheck()
+
+
