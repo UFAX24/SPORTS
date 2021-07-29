@@ -1,0 +1,22 @@
+{
+  "name": "ufax24",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UFAX24/SPORTS.git"
+  },
+  "author": "PNCKDEVAPP",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/UFAX24/SPORTS/issues"
+  },
+  "homepage": "https://github.com/UFAX24/SPORTS#readme",
+  "dependencies": {
+    "markdown-js": "^0.0.4"
+  }
+}
