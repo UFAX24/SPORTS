@@ -6,11 +6,11 @@ const cheerio = require('cheerio');
 const webhook_time = new Date().toISOString().split('.');
 const wordpress = require("wordpress");
 
-// const client = wordpress.createClient({
-//     url: "http://fifabonus88.com/",
-//     username: "webmaster",
-//     password: "ACj9XgjR7b"
-// });
+const client = wordpress.createClient({
+    url: "https://ufarec.net",
+    username: "webmaster",
+    password: "ORCWdGLXa0"
+});
 
 function getCheck_UFAX24S() {
     try {
@@ -27,24 +27,32 @@ function getCheck_UFAX24S() {
 }
 
 
-function linkCheck() {
-    let nameSite = 'fifabonus88.com'
-    let Snamesite = nameSite.split('.');
-    const URL1 = 'https://'+nameSite+'/wp-json/wp/v2/posts?_fields=author,id,excerpt,title,link'
+function linkCheckfifabonus88() {
+    let nameSite = 'https://ufarec.net'
+    let Snamesite = nameSite.split('//');
+    let Rnamesite = Snamesite[1].split('.');
+    const URL1 = nameSite+'/wp-json/wp/v2/posts?_fields=author,id,excerpt,title,link'
     axios.get(URL1)
     .then(response => response.data)
     .then((data) => {
         for (let index = 0; index < data.length; index++) {
             const element = data[index].link;
             console.log(element);  
-            fs.appendFileSync('./blc/'+Snamesite[0]+'.txt', element+"\n")
-            return CheckBL(Snamesite);
+            fs.appendFileSync('./blc/'+Rnamesite[0]+'.txt', element+"\n")
+            return CheckBL(nameSite,Snamesite,Rnamesite);
         }
   })
 }
 
-function CheckBL(Snamesite) {
-    let comm = `bash ./blc/blc.sh -input ./blc/${Snamesite[0]}.txt -link https://${Snamesite[0]}.${Snamesite[1]} -v -log ./blc/log${Snamesite[0]}.txt -found-log ./blc/found${Snamesite[0]}.txt -missing-log ./blc/missing${Snamesite[0]}.txt`
+function CheckBL(nameSite,Snamesite,Rnamesite) {
+    let comm = `bash ./blc/blc.sh -input ./blc/${Rnamesite[0]}.txt -link ${nameSite} -v -log ./blc/log${Rnamesite[0]}.txt -found-log ./blc/found${Rnamesite[0]}.txt -missing-log ./blc/missing${Rnamesite[0]}.txt`
     console.log(comm)
 }
-linkCheck()
+
+function name(params) {
+    client.getPosts()
+        .then((response) => {
+        console.log("Found " + response);
+})
+}
+name()
