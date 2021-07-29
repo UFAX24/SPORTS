@@ -27,21 +27,19 @@ const server = http.createServer(function onRequest(req, res) {
 // use some middleware and compress all outgoing responses
 router.use(compression())
 
-const postData = axios.get(URL1)
-    .then(response => response.data)
-    .then((data) => {
-        pushPost = [];
-        k = data[0]
-        pushPost.push(k)
-        console.log('my data ', pushPost) //This gives me the post data
-        return pushPost
-    })
+router.get("/posts", (req, res, next) => {
+    axios.get(URL1)
+        .then(response => response.data)
+        .then((data) => {
+            const pushPost = [];
+            k = data[0]
+            pushPost.push(k)
+            console.log('my data ', pushPost) //This gives me the post data
 
-    const postDataRes = postData
+            res.json(pushPost)
+        })
 
-console.log('this pushpost ', postDataRes) 
-
- 
+})
 // create and mount a new router for our API
 const api = Router()
 router.use('/api/', api)
@@ -49,9 +47,6 @@ router.use('/api/', api)
 // add a body parsing middleware to our API
 api.use(bodyParser.json())
  
-router.get("/posts", (req, res, next) => {
-    res.json(postDataRes)
-})
 
 // handle `PATCH` requests to `/api/set-message`
 api.patch('/set-message', function (req, res) {
